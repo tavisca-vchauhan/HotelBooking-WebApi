@@ -108,7 +108,7 @@ namespace HotelBooking.Controllers
                 }
                 else
                 {
-                    throw new Exception("No hotel found with this Id");
+                    return "No hotel found with this Id";
                 }
             }
             catch(Exception e)
@@ -173,7 +173,17 @@ namespace HotelBooking.Controllers
                 }
                 else
                 {
-                    throw new Exception("Hotel Not found");
+                    return new HotelResponse()
+                    {
+                        Hotel = null,
+                        Status = new Status()
+                        {
+                            HotelStatus = HotelStatus.Failure,
+                            StatusCode = 404,
+                            ErrorMessage = "The Hotel to be deleted is Not Found"
+
+                        }
+                    };
                 }
             }
             catch(Exception e)
@@ -209,14 +219,15 @@ namespace HotelBooking.Controllers
                         hotelToBeUpdated.RentPerDay = update.RentPerDay;
                     if (update.RoomsAvailable != 0)
                         hotelToBeUpdated.RoomsAvailable = update.RoomsAvailable;
-
+                    if (update.Address != null)
+                        hotelToBeUpdated.Address = update.Address;
 
                     return "Hotel successfully updated ";
 
                 }
                 else
                 {
-                    throw new Exception(" No hotel found with this Id");
+                    return " No hotel found with this Id";
                 }
             }
             catch(Exception e)
